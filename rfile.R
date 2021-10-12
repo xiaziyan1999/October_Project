@@ -36,3 +36,25 @@ hist.data.frame(movies_transformed[, -c(2,3)])
 pairs(movies_transformed[, -c(2:6, 10)])
 ```
 
+```{r}
+library(dplyr)
+summary(movies$returns_2013[which(movies$budget_size_2013==1 & movies$decade==2010)])
+
+movies %>% 
+  group_by(budget_size_2013, decade) %>% 
+  dplyr::summarize(min_return = min(returns_2013, na.rm=TRUE),
+                   q1_return = quantile(returns_2013, .25, na.rm=TRUE),
+                   med_return = median(returns_2013, na.rm=TRUE),
+                   q3_return = quantile(returns_2013, .25, na.rm=TRUE),
+                   max_return = max(returns_2013, na.rm=TRUE), 
+                   avg_return = mean(returns_2013, na.rm=TRUE))
+
+movies %>% 
+  group_by(budget_size_2013, binary) %>% 
+  dplyr::summarize(min_return = min(returns_2013, na.rm=TRUE),
+                   q1_return = quantile(returns_2013, .25, na.rm=TRUE),
+                   med_return = median(returns_2013, na.rm=TRUE),
+                   q3_return = quantile(returns_2013, .25, na.rm=TRUE),
+                   max_return = max(returns_2013, na.rm=TRUE), 
+                   avg_return = mean(returns_2013, na.rm=TRUE))
+```
