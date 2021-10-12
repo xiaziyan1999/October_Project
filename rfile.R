@@ -10,7 +10,7 @@ movies = read.csv("movies.csv", header = TRUE) %>%
          intgross = as.numeric(as.character(intgross)),
          domgross_2013. = as.numeric(as.character(domgross_2013.)),
          intgross_2013. = as.numeric(as.character(intgross_2013.)),
-         decade = floor(2013/10)*10,
+         decade = floor(year/10)*10,
          domprofit_2013 = domgross_2013.*.5,
          intprofit_2013 = intgross_2013.*.4,
          returns_2013 = (domprofit_2013+intprofit_2013)-budget_2013.,
