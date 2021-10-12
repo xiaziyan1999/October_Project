@@ -1,2 +1,2 @@
-# Octobet_Project
+# October_Project
 For Movies EDA
