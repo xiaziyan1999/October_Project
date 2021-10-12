@@ -14,7 +14,7 @@ movies = read.csv("movies.csv", header = TRUE) %>%
          domprofit_2013 = domgross_2013.*.5,
          intprofit_2013 = intgross_2013.*.4,
          returns_2013 = (domprofit_2013+intprofit_2013)-budget_2013.,
-         budget_size_2013 = cut(budget_2013.,seq(from=0,to=275000000,by=25000000),labels=F)
+         budget_size_2013 = as.factor(cut(budget_2013.,seq(from=0,to=275000000,by=25000000),labels=F)))
 ```
 
 ```{r}
