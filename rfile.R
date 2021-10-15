@@ -2,7 +2,6 @@
 library(Hmisc)
 ```
 
-
 ```{r}
 movies = read.csv("movies.csv", header = TRUE) %>% 
   mutate(title = as.character(title),
