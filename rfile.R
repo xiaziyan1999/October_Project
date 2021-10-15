@@ -19,43 +19,24 @@ movies = read.csv("movies.csv", header = TRUE) %>%
 ```
 
 ```{r}
-#data transformations
-
-hist.data.frame(movies[, -c(2,3)])
-pairs(movies[, -c(2:6, 10)])
-
-movies_transformed = movies %>% 
-  mutate(year = (year)^2,
-         budget = log(budget),
-         domgross = log(domgross),
-         intgross = log(intgross), 
-         budget_2013. = log(budget_2013.),
-         domgross_2013. = log(domgross_2013.),
-         intgross_2013. = log(intgross_2013.))
-
-hist.data.frame(movies_transformed[, -c(2,3)])
-pairs(movies_transformed[, -c(2:6, 10)])
-```
-
-```{r}
 library(dplyr)
 summary(movies$profit_2013[which(movies$budget_size_2013==1 & movies$decade==2010)])
 
 movies %>% 
   group_by(budget_size_2013, decade) %>% 
-  dplyr::summarize(min_return = min(profit_2013, na.rm=TRUE),
-                   q1_return = quantile(profit_2013, .25, na.rm=TRUE),
-                   med_return = median(profit_2013, na.rm=TRUE),
-                   q3_return = quantile(profit_2013, .25, na.rm=TRUE),
-                   max_return = max(profit_2013, na.rm=TRUE), 
-                   avg_return = mean(profit_2013, na.rm=TRUE))
+  dplyr::summarize(min_profit = min(profit_2013, na.rm=TRUE),
+                   q1_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   med_profit = median(profit_2013, na.rm=TRUE),
+                   q3_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   max_profit = max(profit_2013, na.rm=TRUE), 
+                   avg_profit = mean(profit_2013, na.rm=TRUE))
 
 movies %>% 
   group_by(budget_size_2013, binary) %>% 
-  dplyr::summarize(min_return = min(profit_2013, na.rm=TRUE),
-                   q1_return = quantile(profit_2013, .25, na.rm=TRUE),
-                   med_return = median(profit_2013, na.rm=TRUE),
-                   q3_return = quantile(profit_2013, .25, na.rm=TRUE),
-                   max_return = max(profit_2013, na.rm=TRUE), 
-                   avg_return = mean(profit_2013, na.rm=TRUE))
+  dplyr::summarize(min_profit = min(profit_2013, na.rm=TRUE),
+                   q1_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   med_profit = median(profit_2013, na.rm=TRUE),
+                   q3_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   max_profit = max(profit_2013, na.rm=TRUE), 
+                   avg_profit = mean(profit_2013, na.rm=TRUE))
 ```
