@@ -67,7 +67,7 @@ plot_wordcloud_pass<-function(budget_size){
 plot_wordcloud_pass(5)
 
 
-list2<-split(movies[which(movies$binary=="FAIL"),],movies[which(movies$binary=="PASS"),]$budget_size_2013)
+list2<-split(movies[which(movies$binary=="FAIL"),],movies[which(movies$binary=="FAIL"),]$budget_size_2013)
 plot_wordcloud_fail<-function(budget_size){
   df1<-arrange(list2[[budget_size]],desc(ROI))
   df2<-data_frame(words=df1$title[1:100],freq=round(df1$ROI)[1:100])
