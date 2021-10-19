@@ -1,33 +1,57 @@
-
+```{r}
 library(Hmisc)
+library(tidyverse)
+library(dplyr)
+```
 
+
+```{r}
 movies = read.csv("movies.csv", header = TRUE) %>% 
   mutate(title = as.character(title),
          domgross = as.numeric(as.character(domgross)),
          intgross = as.numeric(as.character(intgross)),
          domgross_2013. = as.numeric(as.character(domgross_2013.)),
          intgross_2013. = as.numeric(as.character(intgross_2013.)),
-         decade = floor(2013/10)*10,
+         decade = floor(year/10)*10,
          domprofit_2013 = domgross_2013.*.5,
          intprofit_2013 = intgross_2013.*.4,
-         returns_2013 = (domprofit_2013+intprofit_2013)-budget_2013.,
-         budget_size_2013 = cut(x[,7],c(0,25000000,50000000,75000000,100000000,125000000,150000000,175000000,200000000,225000000,250000000,275000000),labels=F)
-
-#data transformations
-
-hist.data.frame(movies[, -c(2,3)])
-pairs(movies[, -c(2:6, 10)])
-
-movies_transformed = movies %>% 
-  mutate(year = (year)^2,
-         budget = log(budget),
-         domgross = log(domgross),
-         intgross = log(intgross), 
-         budget_2013. = log(budget_2013.),
-         domgross_2013. = log(domgross_2013.),
-         intgross_2013. = log(intgross_2013.))
-
-hist.data.frame(movies_transformed[, -c(2,3)])
-pairs(movies_transformed[, -c(2:6, 10)])
+         profit_2013 = (domprofit_2013+intprofit_2013)-budget_2013.,
+         budget_size_2013 = as.factor(cut(budget_2013.,c(0,1000000,20000000,50000000,100000000,150000000, 500000000),labels=F)),
+         ROI = profit_2013/budget_2013.)
 ```
+
+```{r}
+summary(movies$profit_2013[which(movies$budget_size_2013==1 & movies$decade==2010)])
+
+movies %>% 
+  group_by(budget_size_2013, decade) %>% 
+  dplyr::summarize(min_profit = min(profit_2013, na.rm=TRUE),
+                   q1_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   med_profit = median(profit_2013, na.rm=TRUE),
+                   q3_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   max_profit = max(profit_2013, na.rm=TRUE), 
+                   avg_profit = mean(profit_2013, na.rm=TRUE))
+
+movies %>% 
+  group_by(budget_size_2013, binary) %>% 
+  dplyr::summarize(min_profit = min(profit_2013, na.rm=TRUE),
+                   q1_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   med_profit = median(profit_2013, na.rm=TRUE),
+                   q3_profit = quantile(profit_2013, .25, na.rm=TRUE),
+                   max_profit = max(profit_2013, na.rm=TRUE), 
+                   avg_profit = mean(profit_2013, na.rm=TRUE))
+```
+```{r}
+set.seed(20211018)
+df<-arrange(movies,desc(ROI))
+library(wordcloud2)
+df1<-data_frame(words=df$title[1:30],freq=round(df$ROI)[1:30])
+wordcloud2(df1)
+```
+
+
+
+
+
+
 
