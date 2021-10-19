@@ -40,8 +40,7 @@ movies %>%
                    q3_profit = quantile(profit_2013, .25, na.rm=TRUE),
                    max_profit = max(profit_2013, na.rm=TRUE), 
                    avg_profit = mean(profit_2013, na.rm=TRUE))
-```
-```{r}
+
 set.seed(20211018)
 df<-arrange(movies,desc(ROI))
 library(wordcloud2)
@@ -57,7 +56,24 @@ plot_wordcloud<-function(budget_size){
   df2<-data_frame(words=df1$title[1:100],freq=round(df1$ROI)[1:100])
   wordcloud2(df2)
 }
-plot_wordcloud(3)
+plot_wordcloud(5)
+
+list1<-split(movies[which(movies$binary=="PASS"),],movies[which(movies$binary=="PASS"),]$budget_size_2013)
+plot_wordcloud_pass<-function(budget_size){
+  df1<-arrange(list1[[budget_size]],desc(ROI))
+  df2<-data_frame(words=df1$title[1:10],freq=round(df1$ROI)[1:10])
+  wordcloud2(df2)
+}
+plot_wordcloud_pass(5)
+
+
+list2<-split(movies[which(movies$binary=="FAIL"),],movies[which(movies$binary=="PASS"),]$budget_size_2013)
+plot_wordcloud_fail<-function(budget_size){
+  df1<-arrange(list2[[budget_size]],desc(ROI))
+  df2<-data_frame(words=df1$title[1:10],freq=round(df1$ROI)[1:10])
+  wordcloud2(df2)
+}
+plot_wordcloud_fail(6)
 
 
 
