@@ -50,6 +50,15 @@ wordcloud2(df1)
 ```
 
 
+#worldcloud by budget size
+list<-split(movies,movies$budget_size_2013)
+plot_wordcloud<-function(budget_size){
+  df1<-arrange(list[[budget_size]],desc(ROI))
+  df2<-data_frame(words=df$title[1:30],freq=round(df$ROI)[1:30])
+  wordcloud2(df2)
+}
+
+
 
 
 
